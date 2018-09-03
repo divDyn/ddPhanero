@@ -1,2 +1,2 @@
-# 2018-08-30_divDynPhanerozoic
-This repository contains analytical code to reproduce phanerozoic 
+# Phanerozoic-level diversity analyses with the R package divDyn
+initial commit date: 2018-08-29
