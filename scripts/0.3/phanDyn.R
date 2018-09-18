@@ -1,7 +1,7 @@
 #' ---
-#' title: "Functions to analyze Phanerozoic-scale time series of diversity dynamics"
+#' title: "Functions to analyze Phanerozoic-scale time series of diversity dynamics, version 0.3"
 #' author: "Ádám T. Kocsis"
-#' date: "September 17th, 2018"
+#' date: "September 18th, 2018"
 #' ---
 
 #' Extracting values form the output of the analyzeMetrics() function
