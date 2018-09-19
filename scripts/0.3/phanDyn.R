@@ -19,7 +19,7 @@ extractVals<-function(entries, pvals=TRUE){
 	
 
 	# pulsed or continous 4
-	pcNames <- c("ext. rates with durations", "norm. ext. rates with durations", "ori. rates with durations",  "norm. ori. rates with  durations")
+	pcNames <- c("ext. rates with durations", "norm. ext. rates with durations", "orig. rates with durations",  "norm. orig. rates with  durations")
 	for(i in 1:length(entries)){
 		# all results of the case
 		oneRes <- listObj[[i]]
@@ -41,23 +41,40 @@ extractVals<-function(entries, pvals=TRUE){
 		}
 	
 		# mass extinction 5
-		extNames  <- c("end-Permian is highest", "end-Permian ME", "end-Triassic ME", "end-Cretaceous ME", "other ME")
+		extNames  <- c("end-Permian ME", "end-Triassic ME", "end-Cretaceous ME", "end-Permian is highest","number of mass extinctions")
 		if(pvals) {
-			
-			res[9:11,i] <- ! c("end-Permian", "end-Triassic","end-Cretaceous") %in% oneRes[["extinction outliers (boxplot)"]]
+			# the presences of the big 3
+			signME<- c("end-Permian", "end-Triassic","end-Cretaceous") %in% oneRes[["extinction outliers (boxplot)"]]
 	
-			# is there another value than the 3 big ones?
-			res[12,i] <- ! 0<sum(!(oneRes[["extinction outliers (boxplot)"]] %in% c("end-Permian", "end-Triassic","end-Cretaceous")))
-			res[13,i] <- !"end-Permian"==oneRes[["largest extinction"]]
+			# where not present 0.02 (black values)
+			temp <- rep(0.02,3)
+			# where present: 0.002 (bold values)
+			temp[signME] <- 0.002
+		
+			res[9:11,i]<-temp
+
+			
+			# is the end-permian the highest?
+			if("end-Permian"==oneRes[["largest extinction"]]){
+				res[12,i] <- 0.002
+			}else{
+				res[12,i] <- 0.02
+			}
+			
+			# how many mass extinctions are there?
+			res[13,i] <- 0.002
 
 		}else{
-			
+			# the presences of the big 3
 			res[9:11,i] <- c("end-Permian", "end-Triassic","end-Cretaceous") %in% oneRes[["extinction outliers (boxplot)"]]
 	
-			# is there another value than the 3 big ones?
-			res[12,i] <- 0<sum(!(oneRes[["extinction outliers (boxplot)"]] %in% c("end-Permian", "end-Triassic","end-Cretaceous")))
+			# is the end-perian the highest?
+			res[12,i] <- "end-Permian"==oneRes[["largest extinction"]]
 
-			res[13,i] <- "end-Permian"==oneRes[["largest extinction"]]
+			# how many mass extinctions are there?
+			res[13,i] <-length(oneRes[["extinction outliers (boxplot)"]])
+
+			
 		}
 
 		# lognormal 2
@@ -144,15 +161,17 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 	}
 
 	# should the pulsed or continuous model be used???
-	pulsed <- matrix(TRUE, ncol=2, nrow=2)
-	colnames(pulsed) <- c("extinction", "origination")
-	rownames(pulsed) <- c("supplied (pulsed) used", "pulsed used because conflict ")
-	pulsed[2,] <- FALSE
-	
+
 	extPuCo<-pulseCont(dat[, ext], dur=dat[,dur])
 	oriPuCo<-pulseCont(dat[, ori], dur=dat[,dur])
 	
 	if(normalize){
+		pulsed <- matrix(TRUE, ncol=2, nrow=2)
+		colnames(pulsed) <- c("extinction", "origination")
+		rownames(pulsed) <- c("supplied (pulsed) used", "pulsed used because conflict ")
+		pulsed[2,] <- FALSE
+	
+	
 		if(length(extPuCo$sig)==1){
 			if(names(extPuCo$sig)=="not-normalized"){
 				dat[, ext] <-dat[,ext]/dat[, dur] *mean(dat[,dur], na.rm=T)
@@ -167,9 +186,13 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 				dat[, ori] <-dat[,ori]/dat[, dur] *mean(dat[,dur], na.rm=T)
 				if(feedback) message("Normalization of originations was indicated, the values in the entry table changed!")
 				pulsed[1,2]<-FALSE
+		
 			}
 		}
 		if(length(oriPuCo$sig)==2) pulsed[2,2]<-TRUE
+	}else{
+		pulsed <- TRUE
+
 	}
 
 	# significance of the tests
