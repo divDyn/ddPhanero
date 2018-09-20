@@ -10,7 +10,7 @@ version 0.3
 
 This repository contains all data and additional functions used in the Phanerozoic-scale examples and vignette for the paper describing the 'divDyn' R package. You can access the most recently updated report at
 
-https://github.com/adamkocsis/ddPhanero/raw/master/doc/0.3/dd_phanero.pdf
+https://github.com/adamkocsis/ddPhanero/blob/master/doc/0.3/dd_phanero.pdf
 
 
 This is not the development repository of the divDyn package. You can find that at 
