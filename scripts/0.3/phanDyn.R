@@ -518,7 +518,7 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 
 		}
 		
-		if(transform=="log"){	
+		if(transform=="sqrt"){	
 			# exponentiating
 			detDiv <- detDiv^2
 			transPredict <- transPredict^2
