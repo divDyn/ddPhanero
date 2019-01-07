@@ -20,7 +20,7 @@ http://github.com/adamkocsis/divDyn
 
 ## Structure
 
-The repository is organized in the following way:
+The repository is organized the following way:
 
 * ``doc``: The main document in version-specific folders
   - *dd_phanero.pdf*: The report .pdf file.
