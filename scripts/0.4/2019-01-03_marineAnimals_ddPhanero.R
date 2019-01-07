@@ -63,16 +63,16 @@
 	# load the package
 	library(divDyn)
 
-	source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/0.4/phanDyn.R")
-#	source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/0.4/phanDyn.R")
+#	source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/0.4/phanDyn.R")
+	source("https://github.com/divDyn/ddPhanero/raw/master/scripts/0.4/phanDyn.R")
 
 	# subfolders used for output (make them!)
 	redo<-"export/0.4"
 	
 ################################################################################
 # read the data table
-#	load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/PaleoDB/2019-01-03_paleoDB.RData"))
-	load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/PaleoDB/2019-01-03_paleoDB.RData")
+	load(url("https://github.com/divDyn/ddPhanero/raw/master/data/PaleoDB/2019-01-03_paleoDB.RData"))
+#	load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/PaleoDB/2019-01-03_paleoDB.RData")
 
 # 1. taxonomic filtering
 	# filter records not identified at least to genus
@@ -277,6 +277,22 @@
 # finally omit unlithified sediments
 	dat <- dat[dat$lithification1!="unlithified",]
 
+	
+# resolving remaining marine environmental variables (not for this, but for additional analyses) 
+ 	# lithology
+	dat$lith<-categorize(dat$lithology1,keys$lith)
+
+	# batyhmetry
+	dat$bath <- categorize(dat$environment,keys$bath) 
+
+	# grain size
+	dat$gra <- categorize(dat$lithology1,keys$grain) 
+
+	# reef or not?
+	dat$reef <- categorize(dat$environment, keys$reef) 
+	dat$reef[dat$lith=="clastic" & dat$environment=="marine indet."] <- "non-reef" # reef or not?/2
+
+
 ################################################################################
 # 3. stratigraphic resolution
 	# time scales
@@ -367,29 +383,29 @@
 	# terrible in the pre-Silurian
 # using the online items
 	# additional treatment required for Cambrian
-#		# load data
-#		load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/cambStrat.RData"))
-#		# correct it with this function
-#		source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/strat/2018-08-31/cambProcess.R")
-#
-#	# and the Ordovician
-#		# load data
-#		load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/ordStrat.RData"))
-#		# correct it with this function
-#		source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/strat/2018-08-31/ordProcess.R")
-
-# using the offline items
-	# additional treatment required for Cambrian
 		# load data
-		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/cambStrat.RData")
+		load(url("https://github.com/divDyn/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/cambStrat.RData"))
 		# correct it with this function
-		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/cambProcess.R")
+		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2018-08-31/cambProcess.R")
 
 	# and the Ordovician
 		# load data
-		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/ordStrat.RData")
+		load(url("https://github.com/divDyn/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/ordStrat.RData"))
 		# correct it with this function
-		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/ordProcess.R")
+		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2018-08-31/ordProcess.R")
+
+# using the offline items
+#	# additional treatment required for Cambrian
+#		# load data
+#		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/cambStrat.RData")
+#		# correct it with this function
+#		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/cambProcess.R")
+#
+#	# and the Ordovician
+#		# load data
+#		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/ordStrat.RData")
+#		# correct it with this function
+#		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/ordProcess.R")
 
 
 # Sampling
