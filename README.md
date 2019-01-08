@@ -4,7 +4,7 @@
 
 version 0.4
 
-*07. 01. 2018., initial commit date: 2018-08-29*
+*07. 01. 2019., initial commit date: 2018-08-29*
 
 ## About
 
