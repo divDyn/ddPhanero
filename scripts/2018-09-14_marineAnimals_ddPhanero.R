@@ -4,7 +4,7 @@
 #	https://paleobiodb.org/data1.2/occs/list.csv?datainfo&rowcount&interval=Ediacaran,Holocene&show=class,classext,genus,subgenus,abund,coll,coords,loc,paleoloc,strat,stratext,lith,env,ref,crmod,timebins,timecompare
 #	
 #   # 2. Write binary file, so that it takes up less space:
-#	dat <- read.csv("D:/all_2019-01-03.csv", header=T, 
+#	dat <- read.csv("D:/all_2018-09-14.csv", header=T, 
 #		stringsAsFactors=F, skip=17)
 #
 #		# make this dataset somewhat slimmer so that it can be hosted on github
@@ -39,21 +39,21 @@
 #
 #		dat <- dat[,need]
 #
-#	save(dat, file="d:/2019-01-03_paleoDB.RData")
+#	save(dat, file="d:/2018-09-14_paleoDB.RData")
 #	# then it was posted on GitHub
 #
 #	# extracting metadata
 #	# read in occurrence file
-#		fname <- "D:/all_2019-01-03.csv"
+#		fname <- "D:/all_2018-09-14.csv"
 #		con<-file(fname)
 #		a<-readLines(con, 16)
 #		close(con)
 #
 #	# write metaData
-#		meta <- "D:/metadata_2019-01-03.txt"
+#		meta <- "D:/metadata_2018-09-14"
 #		met <- file(meta)
 #		writeLines(text=a, met)
-
+#
 ################################################################################
 # workflow starts from here, set your working diretory!!!
 	workdir<-"D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/"
@@ -63,23 +63,21 @@
 	# load the package
 	library(divDyn)
 
-#	source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/0.4/phanDyn.R")
-	source("https://github.com/divDyn/ddPhanero/raw/master/scripts/0.4/phanDyn.R")
+#	source("scripts/0.3/phanDyn.R")
+#	source("scripts/phanDyn.R")
+	source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/phanDyn.R")
 
 	# subfolders used for output (make them!)
-	redo<-"export/0.4"
+	redo<-"export/0.3"
+	redo<-"export"
 	
 ################################################################################
 # read the data table
-	load(url("https://github.com/divDyn/ddPhanero/raw/master/data/PaleoDB/2019-01-03_paleoDB.RData"))
-#	load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/PaleoDB/2019-01-03_paleoDB.RData")
+	load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/PaleoDB/2018-09-14_paleoDB.RData"))
 
 # 1. taxonomic filtering
 	# filter records not identified at least to genus
 	dat <-dat[dat$accepted_rank %in% c("genus", "species"),]
-
-	# omit non-informative genus entries
-	dat <- dat[dat$genus!="", ]
 
 	#A. phyla
 	marineNoPlant <- c("",
@@ -277,22 +275,6 @@
 # finally omit unlithified sediments
 	dat <- dat[dat$lithification1!="unlithified",]
 
-	
-# resolving remaining marine environmental variables (not for this, but for additional analyses) 
- 	# lithology
-	dat$lith<-categorize(dat$lithology1,keys$lith)
-
-	# batyhmetry
-	dat$bath <- categorize(dat$environment,keys$bath) 
-
-	# grain size
-	dat$gra <- categorize(dat$lithology1,keys$grain) 
-
-	# reef or not?
-	dat$reef <- categorize(dat$environment, keys$reef) 
-	dat$reef[dat$lith=="clastic" & dat$environment=="marine indet."] <- "non-reef" # reef or not?/2
-
-
 ################################################################################
 # 3. stratigraphic resolution
 	# time scales
@@ -343,7 +325,7 @@
 
 	# plot them
 	# time scale
-	tsplot(stages, boxes="sys", shading="sys", xlim=4:95, ylim=c(0,35000), 
+	tsplot(stages, boxes="per", shading="per", xlim=4:95, ylim=c(0,35000), 
 		ylab="number of entries", plot.args=list(cex.lab=1.5, cex.axis=1.8),
 		labels.args=list(cex=1.5))
 
@@ -381,31 +363,17 @@
 		dat$stg[stgCondition] <- stgMin[stgCondition]
 
 	# terrible in the pre-Silurian
-# using the online items
 	# additional treatment required for Cambrian
 		# load data
-		load(url("https://github.com/divDyn/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/cambStrat.RData"))
+		load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/cambStrat.RData"))
 		# correct it with this function
-		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2018-08-31/cambProcess.R")
+		source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/strat/2018-08-31/cambProcess.R")
 
 	# and the Ordovician
 		# load data
-		load(url("https://github.com/divDyn/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/ordStrat.RData"))
+		load(url("https://github.com/adamkocsis/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/ordStrat.RData"))
 		# correct it with this function
-		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2018-08-31/ordProcess.R")
-
-# using the offline items
-#	# additional treatment required for Cambrian
-#		# load data
-#		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/cambStrat.RData")
-#		# correct it with this function
-#		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/cambProcess.R")
-#
-#	# and the Ordovician
-#		# load data
-#		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/ordStrat.RData")
-#		# correct it with this function
-#		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/ordProcess.R")
+		source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/strat/2018-08-31/ordProcess.R")
 
 
 # Sampling
@@ -413,7 +381,7 @@
 		duplicates=FALSE)  
 
 	# time scale
-	tsplot(stages, boxes="sys", shading="sys", xlim=4:95, ylim=c(0,20000), 
+	tsplot(stages, boxes="per", shading="per", xlim=4:95, ylim=c(0,20000), 
 		ylab="number of entries", plot.args=list(cex.lab=1.5, cex.axis=1.8),
 		labels.args=list(cex=1.5))
 
@@ -455,7 +423,7 @@
 	# (a) richness from raw data
 	pdf("first.pdf", 12,10)
 		# time scale
-		tsplot(stages, boxes="sys", shading="sys", xlim=4:95, ylim=c(0,2800), 
+		tsplot(stages, boxes="per", shading="per", xlim=4:95, ylim=c(0,2800), 
 			ylab="Richness", plot.args=list(cex.lab=1.5, cex.axis=1.8),
 			labels.args=list(cex=1.5), xlab="Age (Ma)")
 
@@ -473,7 +441,7 @@
 	# (b) show one subsampling trial
 	pdf("onetrial.pdf", 12,10)
 		# time scale
-		tsplot(stages, boxes="sys", shading="sys", xlim=4:95, ylim=c(0,2800), 
+		tsplot(stages, boxes="per", shading="per", xlim=4:95, ylim=c(0,2800), 
 			ylab="Richness (corrected SIB)",  xlab="Age (Ma)", 
 			plot.args=list(cex.lab=1.5, cex.axis=1.8),labels.args=list(cex=1.5))
 		
@@ -487,8 +455,8 @@
 	# (c) show the averaging of trials
 	pdf("many.pdf", 12, 10)
 		# time scale
-		tsplot(stages, boxes="sys", shading="sys", xlim=4:95, ylim=c(0,1000), 
-			ylab="Subsampled richness (corrected SIB)", xlab="Age (Ma)",  
+		tsplot(stages, boxes="per", shading="per", xlim=4:95, ylim=c(0,1000), 
+			ylab="Subsampled richness (corrected SIB)" xlab="Age (Ma)",  
 			plot.args=list(cex.lab=1.5, cex.axis=1.8),labels.args=list(cex=1.5))
 
 		# plot every subsampling output curve (columns in the object)
@@ -512,11 +480,11 @@
 	
 	# CR
 	crBins<-subsample(dat, bin="bin", tax="clgen", coll="collection_no", q=4800, 
-		iter=500, duplicates=FALSE)
+		iter=300, duplicates=FALSE)
 
 	# SQS
 	sqsBins<-subsample(dat, bin="bin", tax="clgen", coll="collection_no", q=0.7, 
-		iter=500, ref="reference_no",singleton="ref", type="sqs", 
+		iter=300, ref="reference_no",singleton="ref", type="sqs", 
 		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE)
 
 # stages
@@ -525,11 +493,11 @@
 
 	# CR
 	crStg<-subsample(dat, bin="stg", tax="clgen", coll="collection_no", q=1100, 
-		iter=500, duplicates=FALSE)
+		iter=300, duplicates=FALSE)
 
 	# SQS
 	sqsStg<-subsample(dat, bin="stg", tax="clgen", coll="collection_no", q=0.7, 
-		iter=500, ref="reference_no",singleton="ref", type="sqs", 
+		iter=300, ref="reference_no",singleton="ref", type="sqs", 
 		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE)
 
 
@@ -688,7 +656,7 @@ pdf("sumRates.pdf", 17,14)
 		par(mar=c(2, 5.1,4.1,1)) 
 		
 		# plot
-		tsplot(stages, boxes="sys", shading="sys", ylim=c(0, 3), xlim=4:95,
+		tsplot(stages, boxes="per", shading="per", ylim=c(0, 3), xlim=4:95,
 			ylab="Extinction rates", plot.args=list(axes=F, cex.lab=2), xlab="",
 			labels.args=list(cex=1.5))
 		axis(2, cex.axis=1.8)
@@ -706,7 +674,7 @@ pdf("sumRates.pdf", 17,14)
 		# margin adjustment
 		par(mar=c(2, 1,4.1,4.1)) 
 		# plot
-		tsplot(stages, boxes="sys", shading="sys", ylim=c(0, 2), ylab="", 
+		tsplot(stages, boxes="per", shading="per", ylim=c(0, 2), ylab="", 
 			xlim=4:95, plot.args=list(axes=F, cex.lab=2), xlab="",
 			labels.args=list(cex=1.5))
 
@@ -724,7 +692,7 @@ pdf("sumRates.pdf", 17,14)
 		# margin adjustment
 		par(mar=c(5.1,5.1,1,1)) 
 		# plot
-		tsplot(stages, boxes="sys", shading="sys", ylim=c(0, 3), xlim=4:95,
+		tsplot(stages, boxes="per", shading="per", ylim=c(0, 3), xlim=4:95,
 			ylab="Origination rates", plot.args=list(axes=F, cex.lab=2),
 			labels.args=list(cex=1.5), xlab="Age (Ma)")
 		axis(1, cex.axis=1.8)
@@ -741,7 +709,7 @@ pdf("sumRates.pdf", 17,14)
 		par(mar=c(5.1,1,1,4.1))
 
 		# plot
-		tsplot(stages, boxes="sys", shading="sys", ylim=c(0, 2), ylab="", 
+		tsplot(stages, boxes="per", shading="per", ylim=c(0, 2), ylab="", 
 			xlim=4:95, plot.args=list(axes=F, cex.lab=2),
 			labels.args=list(cex=1.5), xlab="Age (Ma)")
 		axis(1, cex.axis=1.8)

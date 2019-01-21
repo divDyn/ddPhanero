@@ -37,7 +37,7 @@ The files necessary to replicate the analyses presented here are deposited in an
 ```
 http://www.github.com/adamkocsis/ddPhanero
 ```
-and are referenced directly from the vignette. We intend to update this material for future reference. The analytical script presented here is also available as a regular .R file (scripts/0.3/2018-09-14_marineAnimals_ddPhanero.R).
+and are referenced directly from the vignette. We intend to update this material for future reference. The analytical script presented here is also available as a regular .R file (scripts/2018-09-14_marineAnimals_ddPhanero.R).
 
 # 2. Getting the data
 
@@ -561,7 +561,7 @@ The analyses in this study focus on turnover rates rather than richness estimate
 
 ```{r pulseCont, echo= TRUE, plot=TRUE, fig.height=5.5}
 # load the necessary functions
-source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/0.3/phanDyn.R")
+source("https://github.com/adamkocsis/ddPhanero/raw/master/scripts/phanDyn.R")
 ```
 
 
@@ -1136,7 +1136,7 @@ With this snippet, each result will be stored as a list class object in the glob
 
 All lines commented with ``#!`` are part of the embedded plotting functionality. If you uncomment these lines (delete ``!`` too!) and set ``plot=TRUE`` in the ``analyzeMetrics()`` function call, a single .pdf file will be produced that will show the four-panel figure presented in section 5.3 for every set of time series (row in ``comb``) on a separate page. You can take look at this .pdf file by following this link:
 ```
-https://github.com/adamkocsis/ddPhanero/raw/master/export/0.3/detrending.pdf
+https://github.com/adamkocsis/ddPhanero/raw/master/export/detrending.pdf
 ```
  
 ## 6.3. Summarizing the results (Table 2)
