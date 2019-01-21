@@ -2,33 +2,33 @@
 
 Ádám T. Kocsis, John Alroy, Carl J. Reddin and Wolfgang Kiessling
 
-version 0.4
+version 0.3
 
-*07. 01. 2019.*
+*20. 09. 2018., initial commit date: 2018-08-29*
 
 ## About
 
 This repository contains all data and additional functions used in the Phanerozoic-scale examples and vignette for the paper describing the 'divDyn' R package. You can access the most recently updated report at
 
-https://github.com/divDyn/ddPhanero/blob/master/doc/dd_phanero.pdf
+https://github.com/adamkocsis/ddPhanero/blob/master/doc/dd_phanero.pdf
 
 
 This is not the development repository of the divDyn package. You can find that at 
 
-http://github.com/divDyn/r_package
+http://github.com/adamkocsis/divDyn
 
 
 ## Structure
 
 The repository is organized in the following way:
 
-* ``doc``: The main document
+* ``doc``: The main document in version-specific folders
   - *dd_phanero.pdf*: The report .pdf file.
   - *dd_phanero.Rmd*: The source rmarkdown file.
 
 * ``data``: All relevant data objects in binary .RData format. 
   * ``PaleoDB``: Downloaded data from the Paleobiology Database (http://paleobiodb.org) with their metadata.
-  * ``Stratigraphy``: Additional data that can be used to assign occurrences to stratigraphic stages.
+  * ``Stratigraphy``: Additional data that can be used to assign occurrences to stratigraphic stages, in version-specific folders.
 
 * ``export``: Tables and figures directly output by the scripts presented in ``scripts``. 
   - *first.pdf*, *onetrial.pdf*, *many.pdf*: Curves of richness.
@@ -39,9 +39,9 @@ The repository is organized in the following way:
     - *subs.ai*, *rates.pdf*, *subs.png*: Figure 1. The Adobe Illustrator file uses *first.pdf*, *onetrial.pdf*, *many.pdf* with links.
     - *rates.ai*, *rates.pdf*, *rates.png*: Figure 2. *sumRates.pdf* with panel labels. The Adobe Illustrator file uses *sumRates.pdf* with a link.
     - *conditionalTable.xlsx*: Table 2. MS Excel table that uses *pBin.csv* and *pStage.csv* to conditionally format *valBin.csv* and *valStage.csv*.
-* ``scripts`` contains all R scripts that are used in the analysis in version-specific folders. In these:
+* ``scripts`` contains all R scripts that are used in the analysis in version-specific folders.In these:
   - *yyyy-mm-dd_marineAnimals_ddPhanero.R*: Analysis script, more-or-less the same as the code presented in the same version .pdf file in the ``doc`` folder.
   - *phanDyn.R*: Functions used in the analyses.
-  * ``strat``: Folder of stratigraphy-correction scripts.
+  * ``strat``: Version-specific folders of stratigraphy-correction scripts.
     - *cambProcess.R*: for the Cambrian period.
     - *ordProcess.R*: for the Ordovician period.
