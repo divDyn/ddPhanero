@@ -27,7 +27,7 @@ The repository is organized in the following way:
   - *dd_phanero.Rmd*: The source rmarkdown file.
 
 * ``data``: All relevant data objects in binary .RData format. 
-  * ``PaleoDB``: Downloaded data from the Paleobiology Database (http.//Paleobiodb.org) with their metadata.
+  * ``PaleoDB``: Downloaded data from the Paleobiology Database (http://paleobiodb.org) with their metadata.
   * ``Stratigraphy``: Additional data that can be used to assign occurrences to stratigraphic stages, in version-specific folders.
 
 * ``export``: Tables and figures directly output by the scripts presented in ``scripts``. 
