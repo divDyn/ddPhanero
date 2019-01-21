@@ -82,7 +82,7 @@ extractVals<-function(entries, pvals=TRUE){
 		res[14:15,i] <- oneRes[["log-normality (Shapiro-Wilk p-value)"]]
 	
 		# dynamics 3
-		dynNames <- c("origination and lagged diversity", "diversity and lagged extinction", "diversity and lagged origination")
+		dynNames <- c("origination and lagged diversity", "diversity and lagged extinction", "extinction and lagged origination")
 		dyn<-oneRes$dyn
 
 		if(pvals){
@@ -246,7 +246,7 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 	if(plot){
 		par(mfrow=c(2,2))
 		par(mar=c(1, 4.1,4.1,2.1))
-		tsplot(stages,  shading="per", ylim=c(0, nMaxRate*1.05), ylab="Turover rates", xlim=c(530,0), plot.args=list(axes=F), xlab="")
+		tsplot(stages,  shading="sys", ylim=c(0, nMaxRate*1.05), ylab="Turover rates", xlim=c(530,0), plot.args=list(axes=F), xlab="")
 		axis(2)
 		lines(age, extVarLong, col="red")
 		lines(age, oriVarLong, col="blue")
@@ -536,7 +536,7 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 			par(mar=c(1, 4.1,4.1,2.1))
 			nMaxDiv<-max(divVarLong, na.rm=T)
 			nMinDiv<-min(divVarLong, na.rm=T)
-			tsplot(stages,  shading="per", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Richness", xlim=c(530,0), plot.args=list(axes=F), xlab="")
+			tsplot(stages,  shading="sys", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Richness", xlim=c(530,0), plot.args=list(axes=F), xlab="")
 			lines(age, divVarLong, lty=1)
 			lines(age, detDivShort, col="black", lty=2)
 			axis(2)
@@ -547,7 +547,7 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 			detMin <- min(c(detExtShort,detExtShort), na.rm=T)
 			if(detMin>0) detMin <-0
 			par(mar=c(5.1,4.1,0.5,2.1))
-			tsplot(stages, boxes="per", ylim=c(detMin*1.05,detMax*1.05), shading="per", xlim=c(530,0), ylab="Detrended rates", xlab="Age (Ma)")
+			tsplot(stages, boxes="sys", ylim=c(detMin*1.05,detMax*1.05), shading="sys", xlim=c(530,0), ylab="Detrended rates", xlab="Age (Ma)")
 			lines(age, detExtShort,col="red" )
 			lines(age, detOriShort,col="blue" )
 			abline(h=boxp$stats[5], lty=2)
@@ -558,15 +558,15 @@ analyzeMetrics<-function(dat, ext, ori, div, age, name, dur, normalize=FALSE, pl
 			if(transform=="log"){
 				nMaxDiv<-log(nMaxDiv)
 				nMinDiv<-log(nMinDiv)
-				tsplot(stages,  boxes="per", shading="per", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Logged richness", xlim=c(530,0), xlab="Age (Ma)")
+				tsplot(stages,  boxes="sys", shading="sys", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Logged richness", xlim=c(530,0), xlab="Age (Ma)")
 			}
 			if(transform=="sqrt"){
 				nMaxDiv<-sqrt(nMaxDiv)
 				nMinDiv<-sqrt(nMinDiv)
-				tsplot(stages,  boxes="per", shading="per", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Square root richness", xlim=c(530,0), xlab="Age (Ma)")
+				tsplot(stages,  boxes="sys", shading="sys", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Square root richness", xlim=c(530,0), xlab="Age (Ma)")
 			}
 			if(transform==FALSE){
-				tsplot(stages,  boxes="per", shading="per", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Richness", xlim=c(530,0), xlab="Age (Ma)")
+				tsplot(stages,  boxes="sys", shading="sys", ylim=c(nMinDiv*0.95, nMaxDiv*1.05), ylab="Richness", xlim=c(530,0), xlab="Age (Ma)")
 			}
 			
 			lines(age, transDiv,col="black" )
