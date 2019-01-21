@@ -2,7 +2,7 @@
 
 Ádám T. Kocsis, John Alroy, Carl J. Reddin and Wolfgang Kiessling
 
-version 0.4
+version 0.3
 
 *initial commit date: 2018-08-29*
 
