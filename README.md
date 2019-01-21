@@ -38,7 +38,7 @@ The repository is organized in the following way:
   * ``combined``: Higher-level combinations and re-renders of the outputs. 
     - *subs.ai*, *rates.pdf*, *subs.png*: Figure 1. The Adobe Illustrator file uses *first.pdf*, *onetrial.pdf*, *many.pdf* with links.
     - *rates.ai*, *rates.pdf*, *rates.png*: Figure 2. *sumRates.pdf* with panel labels. The Adobe Illustrator file uses *sumRates.pdf* with a link.
-    - *conditionalTable.xlsx*: Table 2. MS Excel table that uses *pBin.csv* and *pStage.csv* to conditionally format *valBin.csv* and *valStage.csv*.
+    - *conditionalTable.xlsx*: Table 3. MS Excel table that uses *pBin.csv* and *pStage.csv* to conditionally format *valBin.csv* and *valStage.csv*.
 * ``scripts`` contains all R scripts that are used in the analysis in version-specific folders.In these:
   - *yyyy-mm-dd_marineAnimals_ddPhanero.R*: Analysis script, more-or-less the same as the code presented in the same version .pdf file in the ``doc`` folder.
   - *phanDyn.R*: Functions used in the analyses.
