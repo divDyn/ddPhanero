@@ -56,7 +56,7 @@ The repository is organized in the following way:
 - bad reference to Table 3
 
 
-## [0.4] (revision) - 2019.01.07 
+## [0.4] (revision) - 2019-01-07 
 ### Updated
 - used package versions (0.7.x)
 - source data
@@ -67,6 +67,6 @@ The repository is organized in the following way:
 - additional filter for the empty quotes genus entries <" "> 
 
 
-## [0.3] (first submission) - 2018.01.07 
-### Updated
+## [0.3] (first submission) - 2018-09-20 
+### Repo initialized
 - used package versions (0.6.x)
