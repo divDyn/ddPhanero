@@ -23,7 +23,7 @@ http://github.com/divDyn/r_package
 The repository is organized in the following way:
 
 * ``doc``: The main document in version-specific folders
-  - *dd_phanero.pdf*: The report .pdf file.
+  - *dd_phanero.pdf*: The report .pdf file. The file is copied to ``doc/`` which can be referenced regardless of the version.
   - *dd_phanero.Rmd*: The source rmarkdown file.
 
 * ``data``: All relevant data objects in binary .RData format. 
