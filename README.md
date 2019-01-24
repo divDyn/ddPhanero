@@ -60,7 +60,7 @@ The repository is organized in the following way:
 ### Updated
 - used package versions (0.7.x)
 - source data
-- mistypes in phandyn.R file
+- mistypes in phanDyn.R file
 
 ### Added
 - categorization of environmental variables
