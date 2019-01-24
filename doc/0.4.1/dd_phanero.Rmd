@@ -42,7 +42,7 @@ The files necessary to replicate the analyses presented here are deposited in an
 ```
 http://www.github.com/divDyn/ddPhanero
 ```
-and are referenced directly from the vignette. Along with the vignette, the data will be updated with with every major release of the package and will be archived in Zenodo (``https://doi.org/10.5281/zenodo.2545982``). The analytical script presented here is also available as a regular ``.R`` file (``scripts/2019-01-03_marineAnimals_ddPhanero.R``).
+and are referenced directly from the vignette. Along with the vignette, the data will be updated with with every major release of the package and will be archived in Zenodo (``https://doi.org/10.5281/zenodo.2545982``). The analyses presented here are also available in a regular ``.R`` script file that was used to generate the display items (``scripts/0.4/2019-01-03_marineAnimals_ddPhanero.R``).
 
 # 2. Getting the data
 
