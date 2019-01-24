@@ -2,15 +2,15 @@
 
 Ádám T. Kocsis, John Alroy, Carl J. Reddin and Wolfgang Kiessling
 
-version 0.4
+version 0.4.1 (Supporting Information)
 
-*07. 01. 2019., initial commit date: 2018-08-29*
+*2019-01-24., initial commit date: 2018-08-29*
 
 ## About
 
 This repository contains all data and additional functions used in the Phanerozoic-scale examples and vignette for the paper describing the 'divDyn' R package. You can access the most recently updated report at
 
-https://github.com/divDyn/ddPhanero/blob/master/doc/0.4/dd_phanero.pdf
+https://github.com/divDyn/ddPhanero/blob/master/doc/0.4.1/dd_phanero.pdf
 
 
 This is not the development repository of the divDyn package. You can find that at 
@@ -45,3 +45,28 @@ The repository is organized in the following way:
   * ``strat``: Version-specific folders of stratigraphy-correction scripts.
     - *cambProcess.R*: for the Cambrian period.
     - *ordProcess.R*: for the Ordovician period.
+
+
+# Change log
+
+## [0.4.1] (production, SI) - 2019.01.24 
+### Fixed in doc/
+- typos and links (previously redirected links)
+- character formatting issues
+- bad reference to table 3
+
+
+## [0.4] (revision) - 2019.01.07 
+### Updated
+- used package versions (0.7.x)
+- source data
+- mistypes in phandyn.R file
+
+### Added
+- categorization of environmental variables
+- additional filter for the empty quotes genus entries <" "> 
+
+
+## [0.3] (first submission) - 2018.01.07 
+### Updated
+- used package versions (0.6.x)
