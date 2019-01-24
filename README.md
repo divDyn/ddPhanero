@@ -49,7 +49,7 @@ The repository is organized in the following way:
 
 # Change log
 
-## [0.4.1] (production, SI) - 2019.01.24 
+## [0.4.1] (production, SI) - 2019-01-24 
 ### Fixed in doc/
 - typos and links (previously redirected links), minor phrasing changes
 - character formatting issues
