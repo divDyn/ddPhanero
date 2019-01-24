@@ -51,9 +51,9 @@ The repository is organized in the following way:
 
 ## [0.4.1] (production, SI) - 2019.01.24 
 ### Fixed in doc/
-- typos and links (previously redirected links)
+- typos and links (previously redirected links), minor phrasing changes
 - character formatting issues
-- bad reference to table 3
+- bad reference to Table 3
 
 
 ## [0.4] (revision) - 2019.01.07 
