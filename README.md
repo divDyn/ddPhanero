@@ -1,17 +1,22 @@
-# Phanerozoic-level diversity analyses with the R package divDyn
+﻿# Phanerozoic-level diversity analyses with the R package divDyn
 
 Ádám T. Kocsis, John Alroy, Carl J. Reddin and Wolfgang Kiessling
 
-version 0.4.1 (Supporting Information)
+version 1.0.1 (updated to be used with divDyn 0.8)
 
-*2019-01-24., initial commit date: 2018-08-29*
+*2019-06-12, initial commit date: 2018-08-29*
 
 ## About
 
 This repository contains all data and additional functions used in the Phanerozoic-scale examples and vignette for the paper describing the 'divDyn' R package. You can access the most recently updated report at
 
-https://github.com/divDyn/ddPhanero/blob/master/doc/0.4.1/dd_phanero.pdf
+https://github.com/divDyn/ddPhanero/blob/master/doc/dd_phanero_web.html
 
+in html, and at 
+
+https://github.com/divDyn/ddPhanero/blob/master/doc/dd_phanero.pdf
+
+in pdf format.
 
 This is not the development repository of the divDyn package. You can find that at 
 
@@ -48,6 +53,15 @@ The repository is organized in the following way:
 
 
 # Change log
+
+## [1.0.1] (divDyn update to 0.8) - 2019-06-12
+### Updates
+- updated source data file on 2019-05-31
+- used package versions (0.8.x): some variables were renamed (e.g. "bin" to "ten", when referring to the 10 my time scale). And changing some argumentation (na.rm=T for subsampling). 
+- rendered html vignette
+- The file processing Ordovician stratigraphy was modified to remove the hard-coded 'bin' column, which was not used anyway.
+- The quota for CR was dropped from 4800 to 4700 for the ten-million year time scale  and to 1000 from 1100 with the stage-level time scale, due to the lower number of occurrences passed. This decrease in the number of occurrences is visible after the taxonomic filtering part. 
+
 
 ## [0.4.1] (production, SI) - 2019-01-24 
 ### Fixed in doc/
