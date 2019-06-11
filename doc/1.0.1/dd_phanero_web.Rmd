@@ -3,7 +3,7 @@
 
 Adam T. Kocsis, John Alroy, Carl J. Reddin, Wolfgang Kiessling
 
-date: '`r Sys.Date()`'
+`r Sys.Date()`
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
