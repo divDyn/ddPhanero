@@ -54,7 +54,7 @@ The repository is organized in the following way:
 
 # Change log
 
-## [1.0.1] (divDyn update to 0.8) - 2019-06-12
+## [1.0.1] (divDyn update to 0.8) - 2019-06-13
 ### Updates
 - updated source data file on 2019-05-31
 - used package versions (0.8.x): some variables were renamed (e.g. "bin" to "ten", when referring to the 10 my time scale). And changing some argumentation (na.rm=T for subsampling). 

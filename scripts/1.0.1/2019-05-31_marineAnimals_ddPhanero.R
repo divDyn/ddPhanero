@@ -4,7 +4,10 @@
 #	https://paleobiodb.org/data1.2/occs/list.csv?datainfo&rowcount&interval=Ediacaran,Holocene&show=class,classext,genus,subgenus,abund,coll,coords,loc,paleoloc,strat,stratext,lith,env,ref,crmod,timebins,timecompare
 #	
 #   # 2. Write binary file, so that it takes up less space:
-#	dat <- read.csv("D:/all_2019-01-03.csv", header=T, 
+#   workdir <- "/media/adam/data/shared/"
+#   # workdir <- "D:/"
+#   setwd(workdir)
+#	dat <- read.csv("all_2019-05-31.csv", header=T, 
 #		stringsAsFactors=F, skip=17)
 #
 #		# make this dataset somewhat slimmer so that it can be hosted on github
@@ -39,40 +42,41 @@
 #
 #		dat <- dat[,need]
 #
-#	save(dat, file="d:/2019-01-03_paleoDB.RData")
+#	save(dat, file="2019-05-31_paleoDB.RData")
 #	# then it was posted on GitHub
 #
 #	# extracting metadata
 #	# read in occurrence file
-#		fname <- "D:/all_2019-01-03.csv"
+#		fname <- "all_2019-05-31.csv"
 #		con<-file(fname)
 #		a<-readLines(con, 16)
 #		close(con)
 #
 #	# write metaData
-#		meta <- "D:/metadata_2019-01-03.txt"
+#		meta <- "metadata_2019-05-31.txt"
 #		met <- file(meta)
 #		writeLines(text=a, met)
 
 ################################################################################
 # workflow starts from here, set your working diretory!!!
-	workdir<-"D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/"
-#	workdir <- "/media/kocsis/Data/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/"
+if(get_os()=="windows")	workdir<-"D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/"
+if(get_os()=="linux")	workdir <- "/media/adam/data/shared/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/"
 	setwd(workdir)
 
-	# load the package
+	# load the package v0.8
 	library(divDyn)
 
-#	source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/0.4/phanDyn.R")
-	source("https://github.com/divDyn/ddPhanero/raw/master/scripts/0.4/phanDyn.R")
+	source("scripts/1.0.1/phanDyn.R")
+#	source("https://github.com/divDyn/ddPhanero/raw/master/scripts/1.0.1/phanDyn.R")
 
 	# subfolders used for output (make them!)
-	redo<-"export/0.4"
+	redo<-"export/1.0.1"
+	system(paste("mkdir", redo))
 	
 ################################################################################
 # read the data table
-	load(url("https://github.com/divDyn/ddPhanero/raw/master/data/PaleoDB/2019-01-03_paleoDB.RData"))
-#	load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/PaleoDB/2019-01-03_paleoDB.RData")
+#	load(url("https://github.com/divDyn/ddPhanero/raw/master/data/PaleoDB/2019-05-31_paleoDB.RData"))
+	load("data/PaleoDB/2019-05-31_paleoDB.RData")
 
 # 1. taxonomic filtering
 	# filter records not identified at least to genus
@@ -279,6 +283,9 @@
 
 	
 # resolving remaining marine environmental variables (not for this, but for additional analyses) 
+ 	#load from divDyn
+ 	data(keys)
+
  	# lithology
 	dat$lith<-categorize(dat$lithology1,keys$lith)
 
@@ -292,54 +299,54 @@
 	dat$reef <- categorize(dat$environment, keys$reef) 
 	dat$reef[dat$lith=="clastic" & dat$environment=="marine indet."] <- "non-reef" # reef or not?/2
 
+	# onshore - offshore
+	dat$depenv <- categorize(dat$environment,keys$depenv) 
 
 ################################################################################
 # 3. stratigraphic resolution
 	# time scales
 	data(stages)
-	data(bins)
+	data(tens)
 	
 	# rename the entries
-	colnames(bins)[colnames(bins)=="X10"]<-"name"
+	colnames(tens)[colnames(tens)=="X10"]<-"name"
 	colnames(stages)[colnames(stages)=="stage"]<-"name"
 
-	# load lookup keys
-	data(keys)
-
+	
 #-------------------------------------------------------------------------------
 # A.  the bin entries
 
 	# a. categorize interval names to bin numbers
 		# categorize is the new function of the package
-		binMin<-categorize(dat[,"early_interval"],keys$binInt)
-		binMax<-categorize(dat[,"late_interval"],keys$binInt)
+		tenMin<-categorize(dat[,"early_interval"],keys$tenInt)
+		tenMax<-categorize(dat[,"late_interval"],keys$tenInt)
 
 		# convert to numeric
-		binMin<-as.numeric(binMin)
-		binMax<-as.numeric(binMax)
+		tenMin<-as.numeric(tenMin)
+		tenMax<-as.numeric(tenMax)
 
 	# b. resolve max-min interval uncertainty
 	# final variable (empty)
-		dat$bin <- rep(NA, nrow(dat))
+		dat$ten <- rep(NA, nrow(dat))
 
 	# use entries, where
-		binCondition <- c(
+		tenCondition <- c(
 		# the early and late interval fields indicate the same bin
-			which(binMax==binMin),
+			which(tenMax==tenMin),
 		# or the late_interval field is empty
-			which(binMax==-1))
+			which(tenMax==-1))
 
 	# in these entries, use the bin indicated by the early_interval
-		dat$bin[binCondition] <- binMin[binCondition]
+		dat$ten[tenCondition] <- tenMin[tenCondition]
 
  # Sampling
-	sampBin <- binstat(dat, bin="bin", tax="clgen", coll="collection_no", 
+	sampTen <- binstat(dat, bin="ten", tax="clgen", coll="collection_no", 
 		duplicates=FALSE)  
 
-	# sort the number of occs/bin
-	binOccs <- sampBin$occs
-	names(binOccs) <- rownames(sampBin)
-	sort(binOccs)
+	# sort the number of occs/ten
+	tenOccs <- sampTen$occs
+	names(tenOccs) <- rownames(sampTen)
+	sort(tenOccs)
 
 	# plot them
 	# time scale
@@ -348,10 +355,10 @@
 		labels.args=list(cex=1.5))
 
 	# occurrences
-	lines(bins$mid, sampBin$occs, lwd=2)
+	lines(tens$mid, sampTen$occs, lwd=2)
 
 	# collections
-	lines(bins$mid, sampBin$colls, lwd=2, col="blue")
+	lines(tens$mid, sampTen$colls, lwd=2, col="blue")
 
 	# legend
 	legend("topright", bg="white", legend=c("occurrences", "collections"), 
@@ -392,7 +399,7 @@
 		# load data
 		load(url("https://github.com/divDyn/ddPhanero/raw/master/data/Stratigraphy/2018-08-31/ordStrat.RData"))
 		# correct it with this function
-		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2018-08-31/ordProcess.R")
+		source("https://github.com/divDyn/ddPhanero/raw/master/scripts/strat/2019-05-31/ordProcess.R")
 
 # using the offline items
 #	# additional treatment required for Cambrian
@@ -403,9 +410,9 @@
 #
 #	# and the Ordovician
 #		# load data
-#		load("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/data/Stratigraphy/2018-08-31/ordStrat.RData")
+#		load("data/Stratigraphy/2018-08-31/ordStrat.RData")
 #		# correct it with this function
-#		source("D:/Dropbox/WorkSpace/2017-04-05_divDyn/ddPhanero/scripts/strat/2018-08-31/ordProcess.R")
+#		source(scripts/strat/2019-05-31/ordProcess.R")
 
 
 # Sampling
@@ -445,7 +452,7 @@
 		sqsStagesPlot<-subsample(dat, bin="stg", tax="clgen", 
 			coll="collection_no", q=0.7, iter=100, 
 			ref="reference_no",singleton="ref", type="sqs", duplicates=FALSE, 
-			excludeDominant=TRUE, largestColl =TRUE, output="dist")
+			excludeDominant=TRUE, largestColl =TRUE, output="dist", na.rm=TRUE)
 
 
 # panels of the first figure
@@ -508,29 +515,29 @@
 
 # 10my scale
 	# raw patterns
-	ddBins<-divDyn(dat, bin="bin", tax="clgen")
+	ddTens<-divDyn(dat, bin="ten", tax="clgen")
 	
 	# CR
-	crBins<-subsample(dat, bin="bin", tax="clgen", coll="collection_no", q=4800, 
-		iter=500, duplicates=FALSE)
+	crTens<-subsample(dat, bin="ten", tax="clgen", coll="collection_no", q=4800, 
+		iter=500, duplicates=FALSE, na.rm=TRUE)
 
 	# SQS
-	sqsBins<-subsample(dat, bin="bin", tax="clgen", coll="collection_no", q=0.7, 
+	sqsTens<-subsample(dat, bin="ten", tax="clgen", coll="collection_no", q=0.7, 
 		iter=500, ref="reference_no",singleton="ref", type="sqs", 
-		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE)
+		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE, na.rm=TRUE)
 
 # stages
 	# raw patterns
 	ddStg<-divDyn(dat, bin="stg", tax="clgen")
 
 	# CR
-	crStg<-subsample(dat, bin="stg", tax="clgen", coll="collection_no", q=1100, 
-		iter=500, duplicates=FALSE)
+	crStg<-subsample(dat, bin="stg", tax="clgen", coll="collection_no", q=1000, 
+		iter=500, duplicates=FALSE, na.rm=TRUE)
 
 	# SQS
 	sqsStg<-subsample(dat, bin="stg", tax="clgen", coll="collection_no", q=0.7, 
 		iter=500, ref="reference_no",singleton="ref", type="sqs", 
-		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE)
+		duplicates=FALSE, excludeDominant=TRUE, largestColl =TRUE, na.rm=TRUE)
 
 
 # Analysis of produced results
@@ -550,11 +557,11 @@
 	
 	# the result matrices
 	sourceVar<-rep(
-		c("ddBins", "crBins", "sqsBins", "ddStg", "crStg", "sqsStg"),
+		c("ddTens", "crTens", "sqsTens", "ddStg", "crStg", "sqsStg"),
 		each=4)
 	
 	# timescale objects
-	scale <- rep(c("bins", "stages"), each=12)
+	scale <- rep(c("tens", "stages"), each=12)
 	
 	comb<-cbind(sourceVar, scale, comb)
 	colnames(comb) <- c("source", "timescale", "ext", "ori", "div")
@@ -568,9 +575,9 @@
 		sep="_")
 
 
-# matrices to hold rates for later plotting
-	extDatBin <- data.frame(bins=1:49)
-	oriDatBin <- data.frame(bins=1:49)
+# matrices to hold rates for plotting
+	extDatTen <- data.frame(ten=1:49)
+	oriDatTen <- data.frame(ten=1:49)
 	extDatStg <- data.frame(stg=1:95)
 	oriDatStg <- data.frame(stg=1:95)
 
@@ -590,9 +597,9 @@ for(i in 1:nrow(comb)){
 
 	# save rates for later, depending on the resolution
 	# 10 my
-	if(comb[i, "timescale"] == "bins"){
-		oriDatBin[[case]] <- metrics[, comb[i, "ori"]]
-		extDatBin[[case]] <- metrics[, comb[i, "ext"]]
+	if(comb[i, "timescale"] == "tens"){
+		oriDatTen[[case]] <- metrics[, comb[i, "ori"]]
+		extDatTen[[case]] <- metrics[, comb[i, "ext"]]
 	}
 
 	# stages
@@ -671,9 +678,9 @@ pvals <- extractVals(rownames(comb), pvals=TRUE)
 ################################################################################
 # Display item
 	# remove the bin numbers from containers
-	extDatBin$bins<-NULL
+	extDatTen$ten<-NULL
 	extDatStg$stg<-NULL
-	oriDatBin$bins<-NULL
+	oriDatTen$ten<-NULL
 	oriDatStg$stg<-NULL
 
 # open .pdf
@@ -694,10 +701,10 @@ pdf("sumRates.pdf", 17,14)
 		axis(2, cex.axis=1.8)
 
 		# background
-		shades(bins$mid, as.matrix(extDatBin), col="red") 
+		shades(tens$mid, as.matrix(extDatTen), col="red") 
 
 		# extinction rates series - BIN
-		for(i in 1:ncol(extDatBin)) lines(bins$mid, extDatBin[,i]) 
+		for(i in 1:ncol(extDatTen)) lines(tens$mid, extDatTen[,i]) 
 		
 		# show resolution
 		mtext(line=1, text="10 my bins", side=3, cex=3) 
@@ -731,10 +738,10 @@ pdf("sumRates.pdf", 17,14)
 		axis(2, cex.axis=1.8)
 
 		# background
-		shades(bins$mid, as.matrix(oriDatBin), col="darkgreen") 
+		shades(tens$mid, as.matrix(oriDatTen), col="darkgreen") 
 
 		# origination rates series - BIN
-		for(i in 1:ncol(oriDatBin)) lines(bins$mid, oriDatBin[,i]) 
+		for(i in 1:ncol(oriDatTen)) lines(tens$mid, oriDatTen[,i]) 
 
 		# 4th panel
 		# margin adjustment
