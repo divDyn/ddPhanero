@@ -4,7 +4,7 @@
 
 version 1.0.1 (updated to be used with divDyn 0.8)
 
-*2019-06-12, initial commit date: 2018-08-29*
+*2019-06-13, initial commit date: 2018-08-29*
 
 ## About
 
